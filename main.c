@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 int main() {
     char names[5][11];
@@ -12,10 +13,10 @@ int main() {
         for (int j = 0; j < 13; j++) {
             scanf("%d", &scores[i][j]);
         }
-        names[i][0] = toupper(names[i][0]);  // Gör första bokstaven versal
+        names[i][0] = toupper(names[i][0]);  // Första bokstaven versal
     }
 
-    // Räkna ut snitt för varje elev
+    // Beräkna genomsnitt
     double total = 0.0;
     for (int i = 0; i < 5; i++) {
         int sum = 0;
@@ -26,12 +27,25 @@ int main() {
         total += averages[i];
     }
 
-    // Gruppsnitt
-    double group_average = total / 5.0;
+    // Hitta högst snitt
+    double highest = averages[0];
+    int index_highest = 0;
+    for (int i = 1; i < 5; i++) {
+        if (averages[i] > highest) {
+            highest = averages[i];
+            index_highest = i;
+        }
+    }
 
-    // Skriv ut endast de elever som ligger under gruppsnittet
+    // Skriv ut namn med högst snitt först
+    printf("%s\n", names[index_highest]);
+
+    // Räkna ut gruppsnitt
+    double group_avg = total / 5.0;
+
+    // Skriv ut de som ligger under gruppsnittet (i inmatningsordning)
     for (int i = 0; i < 5; i++) {
-        if (averages[i] < group_average) {
+        if (i != index_highest && averages[i] < group_avg) {
             printf("%s\n", names[i]);
         }
     }
